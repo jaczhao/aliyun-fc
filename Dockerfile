@@ -1,7 +1,22 @@
-FROM node:6.10.3
+FROM reg.docker.alibaba-inc.com/serverless/fc-cagent-java:8u131-dev-v5
 
-RUN mkdir /code
+MAINTAINER alibaba-serverless-lambda
 
-WORKDIR /code
+# Environment variables can be overwritten by running
+# $ docker run --env <key>=<value>
+# Expose the port number.
+EXPOSE ${FC_SERVER_PORT}
 
-RUN apt-get update && apt-get -y install zip
+# Function configuration.
+ENV FC_FUNC_CODE_PATH=/code/ \
+    FC_RUNTIME_ROOT_PATH=${FC_SERVER_PATH}/bootstrap \
+    FC_RUNTIME_SYSTEM_PATH=${FC_SERVER_PATH}
+
+# Create function directories.
+RUN mkdir -p \
+    ${FC_RUNTIME_LOG_PATH} \
+    ${FC_FUNC_CODE_PATH} \
+    ${FC_RUNTIME_SYSTEM_PATH}
+
+# Change work directory.
+WORKDIR ${FC_FUNC_CODE_PATH}
