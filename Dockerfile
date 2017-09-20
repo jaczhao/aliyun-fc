@@ -1,24 +1,7 @@
-FROM python:2.7
+FROM node:4.4.7
 
-MAINTAINER alibaba-serverless-fc
+RUN mkdir /code
 
-# Server path.
-ENV FC_SERVER_PATH=/var/fc/runtime/python2.7
+WORKDIR /code
 
-# Create directory.
-RUN mkdir -p ${FC_SERVER_PATH}
-
-# Change work directory.
-WORKDIR ${FC_SERVER_PATH}
-
-# Install imagemagick
-RUN apt-get install -y imagemagick
-
-# Install third party libraries for user function.
-RUN pip install \
-    oss2 \
-    tablestore \
-    wand
-
-# Start a shell by default
-CMD ["bash"]
+RUN apt-get update && apt-get -y install zip
