@@ -1,4 +1,4 @@
-FROM node:4.4.7
+FROM node:6.10.3
 
 RUN mkdir /code
 
