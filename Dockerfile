@@ -1,22 +1,28 @@
-FROM reg.docker.alibaba-inc.com/serverless/fc-cagent-java:8u131-dev-v5
+FROM python:2.7
 
-MAINTAINER alibaba-serverless-lambda
+MAINTAINER alibaba-serverless-fc
 
-# Environment variables can be overwritten by running
-# $ docker run --env <key>=<value>
-# Expose the port number.
-EXPOSE ${FC_SERVER_PORT}
+# Server path.
+ENV FC_SERVER_PATH=/var/fc/runtime/python2.7
 
 # Function configuration.
 ENV FC_FUNC_CODE_PATH=/code/ \
-    FC_RUNTIME_ROOT_PATH=${FC_SERVER_PATH}/bootstrap \
-    FC_RUNTIME_SYSTEM_PATH=${FC_SERVER_PATH}
+    FC_FUNC_LOG_PATH=/var/log/fc/
 
-# Create function directories.
-RUN mkdir -p \
-    ${FC_RUNTIME_LOG_PATH} \
-    ${FC_FUNC_CODE_PATH} \
-    ${FC_RUNTIME_SYSTEM_PATH}
+# Create directory.
+RUN mkdir -p ${FC_SERVER_PATH}
 
 # Change work directory.
 WORKDIR ${FC_FUNC_CODE_PATH}
+
+# Install imagemagick
+RUN apt-get install -y imagemagick
+
+# Install third party libraries for user function.
+RUN pip install \
+    oss2 \
+    tablestore \
+    wand
+
+# Start a shell by default
+CMD ["bash"]
