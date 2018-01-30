@@ -1,4 +1,4 @@
-FROM reg.docker.alibaba-inc.com/serverless/python:2.7
+FROM python:2.7
 
 MAINTAINER alibaba-serverless-fc
 
@@ -7,6 +7,7 @@ ENV FC_SERVER_PATH=/var/fc/runtime/python2.7
 
 # Create directory.
 RUN mkdir -p ${FC_SERVER_PATH}
+ENV FC_FUNC_CODE_PATH=/code/
 
 # Change work directory.
 WORKDIR ${FC_SERVER_PATH}
