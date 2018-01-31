@@ -1,13 +1,12 @@
-FROM python:2.7
+FROM python:3.6
 
 MAINTAINER alibaba-serverless-fc
 
 # Server path.
-ENV FC_SERVER_PATH=/var/fc/runtime/python2.7
+ENV FC_SERVER_PATH=/var/fc/runtime/python3
 
 # Create directory.
 RUN mkdir -p ${FC_SERVER_PATH}
-ENV FC_FUNC_CODE_PATH=/code/
 
 # Change work directory.
 WORKDIR ${FC_SERVER_PATH}
@@ -24,9 +23,10 @@ RUN apt-get update && apt-get install -y \
 
 # Suppress opencv error: "libdc1394 error: Failed to initialize libdc1394"
 RUN ln /dev/null /dev/raw1394
+ENV FC_FUNC_CODE_PATH=/code/
 
 # Install third party libraries for user function.
-# aliyun-log-python-sdk and tablestore protobuf version has conflict,  don't change their installation sequence
+# aliyun-log-python-sdk and tablestore protobuf version has conflict, don't change their installation sequence
 RUN pip install \
     oss2==2.3.3 \
     wand==0.4.4 \
