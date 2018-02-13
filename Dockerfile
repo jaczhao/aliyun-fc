@@ -10,6 +10,13 @@ ENV FC_SERVER_PATH=/var/fc/runtime/nodejs8 \
 
 # Create directory.
 RUN mkdir -p ${FC_SERVER_PATH}
+RUN mkdir -p ~/.pip 
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+
+ENV FC_FUNC_CODE_PATH=/code/
+
+COPY pip.conf ~/.pip/
+COPY sources.list /etc/apt/
 
 # Change work directory.
 WORKDIR ${FC_SERVER_PATH}
