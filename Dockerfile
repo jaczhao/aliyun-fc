@@ -4,6 +4,7 @@ MAINTAINER alibaba-serverless-fc
 
 # Environment variables.
 ENV FC_SERVER_PATH=/var/fc/runtime/nodejs6 \
+    FC_FUNC_CODE_PATH=/code/ \ 
     NODE_PATH=/usr/local/lib/node_modules \
     PATH=${FC_SERVER_PATH}/node_modules/.bin:${PATH}
 
