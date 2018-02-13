@@ -9,7 +9,6 @@ ENV FC_SERVER_PATH=/var/fc/runtime/nodejs6 \
 
 # Create directory.
 RUN mkdir -p ${FC_SERVER_PATH}
-
 # Change work directory.
 WORKDIR ${FC_SERVER_PATH}
 
