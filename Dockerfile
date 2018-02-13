@@ -7,7 +7,6 @@ ENV FC_SERVER_PATH=/var/fc/runtime/nodejs8 \
     NODE_PATH=/usr/local/lib/node_modules \
     FC_FUNC_CODE_PATH=/code/ \
     PATH=${FC_SERVER_PATH}/node_modules/.bin:${PATH}
-
 # Create directory.
 RUN mkdir -p ${FC_SERVER_PATH}
 
@@ -38,7 +37,8 @@ RUN npm install --global --unsafe-perm \
         aliyun-sdk@1.10.12 \
         @alicloud/fc@1.2.2 \
         opencv@6.0.0 \
-        tablestore@4.0.4
+        tablestore@4.0.4\
+        @alicloud/fc2@2.0.1
 
 RUN npm cache clean --force
 
