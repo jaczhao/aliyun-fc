@@ -14,9 +14,6 @@ RUN mkdir -p ${FC_SERVER_PATH}
 # Change work directory.
 WORKDIR ${FC_SERVER_PATH}
 
-# Copy files to home directory.
-COPY package.json .
-
 # Install server dependencies.
 RUN npm install \
         --loglevel error \
