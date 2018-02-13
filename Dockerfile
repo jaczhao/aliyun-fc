@@ -1,9 +1,9 @@
-FROM node:8.9.0
+FROM node:4.4.7
 
 MAINTAINER alibaba-serverless-fc
 
 # Environment variables.
-ENV FC_SERVER_PATH=/var/fc/runtime/nodejs8 \
+ENV FC_SERVER_PATH=/var/fc/runtime/nodejs4.4 \
     NODE_PATH=/usr/local/lib/node_modules \
     FC_FUNC_CODE_PATH=/code/ \
     PATH=${FC_SERVER_PATH}/node_modules/.bin:${PATH}
@@ -14,6 +14,9 @@ RUN mkdir -p ${FC_SERVER_PATH}
 # Change work directory.
 WORKDIR ${FC_SERVER_PATH}
 
+# Copy files to home directory.
+COPY package.json .
+
 # Install server dependencies.
 RUN npm install \
         --loglevel error \
@@ -21,7 +24,7 @@ RUN npm install \
 
 # Install common libraries
 RUN apt-get update && apt-get install -y \
-        imagemagick=8:6.8.9.9-5+deb8u10 \
+        imagemagick=8:6.8.9.9-5+deb8u11 \
         libopencv-dev=2.4.9.1+dfsg-1+deb8u1 \
         fonts-wqy-zenhei=0.9.45-6 \
         fonts-wqy-microhei=0.2.0-beta-2
@@ -29,7 +32,7 @@ RUN apt-get update && apt-get install -y \
 # Suppress opencv error: "libdc1394 error: Failed to initialize libdc1394"
 RUN ln /dev/null /dev/raw1394
 
-# Install thrid party libraries for user function.
+# Install third party libraries for user function.
 RUN npm install --global --unsafe-perm \
         --registry http://registry.npm.taobao.org \
         co@4.6.0 \
@@ -38,7 +41,8 @@ RUN npm install --global --unsafe-perm \
         aliyun-sdk@1.10.12 \
         @alicloud/fc@1.2.2 \
         opencv@6.0.0 \
-        tablestore@4.0.4
+        tablestore@4.0.4 \
+        @alicloud/fc2@2.0.0
 
 RUN npm cache clean --force
 
