@@ -16,7 +16,7 @@ COPY pip.conf ~/.pip/
 COPY sources.list /etc/apt/
 
 # Change work directory.
-WORKDIR ${FC_SERVER_PATH}
+WORKDIR ${FC_FUNC_CODE_PATH}
 
 # Install dev dependencies.
 RUN pip install coverage
@@ -30,7 +30,6 @@ RUN apt-get update && apt-get install -y \
 
 # Suppress opencv error: "libdc1394 error: Failed to initialize libdc1394"
 RUN ln /dev/null /dev/raw1394
-ENV FC_FUNC_CODE_PATH=/code/
 
 # Install third party libraries for user function.
 # aliyun-log-python-sdk and tablestore protobuf version has conflict, don't change their installation sequence
