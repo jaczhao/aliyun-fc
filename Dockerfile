@@ -11,7 +11,7 @@ ENV FC_SERVER_PATH=/var/fc/runtime/nodejs8 \
 RUN mkdir -p ${FC_SERVER_PATH}
 
 # Change work directory.
-WORKDIR ${FC_SERVER_PATH}
+WORKDIR ${FC_FUNC_CODE_PATH}
 
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY sources.list /etc/apt/
