@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y \
 # Suppress opencv error: "libdc1394 error: Failed to initialize libdc1394"
 RUN ln /dev/null /dev/raw1394
 
-# Install third party libraries for user function.
+# Install third party libraries for user function
 RUN npm install --global --unsafe-perm \
         --registry http://registry.npm.taobao.org \
         co@4.6.0 \
