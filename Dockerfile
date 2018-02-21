@@ -15,7 +15,7 @@ RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY sources.list /etc/apt/
 
 # Change work directory.
-WORKDIR ${FC_SERVER_PATH}
+WORKDIR ${FC_FUNC_CODE_PATH}
 
 
 
