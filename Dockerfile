@@ -9,7 +9,7 @@ ENV FC_SERVER_PATH=/var/fc/runtime/nodejs4.4 \
     PATH=${FC_SERVER_PATH}/node_modules/.bin:${PATH}
 
 # Create directory.
-RUN mkdir -p ${FC_SERVER_PATH}
+RUN mkdir -p ${FC_FUNC_CODE_PATH}
 
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY sources.list /etc/apt/
