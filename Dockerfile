@@ -16,7 +16,7 @@ COPY pip.conf ~/.pip/
 COPY sources.list /etc/apt/ 
 
 # Change work directory.
-WORKDIR ${FC_SERVER_PATH}
+WORKDIR ${FC_FUNC_CODE_PATH}
 
 # Install dev dependencies.
 RUN pip install coverage
