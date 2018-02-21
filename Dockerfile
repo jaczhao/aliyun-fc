@@ -17,10 +17,7 @@ COPY sources.list /etc/apt/
 # Change work directory.
 WORKDIR ${FC_SERVER_PATH}
 
-# Install server dependencies.
-RUN npm install \
-        --loglevel error \
-        --registry http://registry.npm.taobao.org
+
 
 # Install common libraries
 RUN apt-get update && apt-get install -y \
