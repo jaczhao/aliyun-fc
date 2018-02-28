@@ -57,6 +57,6 @@ RUN for i in $(seq 10000 10999); do \
         echo "user$i:x:$i:$i::/tmp:/usr/sbin/nologin" >> /etc/passwd; \
     done
 
-ENV LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64
+ENV LD_LIBRARY_PATH=${FC_FUNC_CODE_PATH}:${FC_FUNC_CODE_PATH}/lib:/opt/intel/mkl/lib/intel64
 # Start a shell by default
 CMD ["bash"]
