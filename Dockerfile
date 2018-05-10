@@ -5,8 +5,9 @@ MAINTAINER alibaba-serverless-fc
 # Environment variables.
 ENV FC_SERVER_PATH=/var/fc/runtime/nodejs4.4 \
     NODE_PATH=/usr/local/lib/node_modules \
-    FC_FUNC_CODE_PATH=/code/ \
-    PATH=${FC_SERVER_PATH}/node_modules/.bin:${PATH}
+    FC_FUNC_CODE_PATH=/code
+ENV PATH=${FC_FUNC_CODE_PATH}/node_modules/.bin:${PATH}
+ENV LD_LIBRARY_PATH=${FC_FUNC_CODE_PATH}:${FC_FUNC_CODE_PATH}/lib
 
 # Create directory.
 RUN mkdir -p ${FC_FUNC_CODE_PATH}
