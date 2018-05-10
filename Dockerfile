@@ -7,12 +7,11 @@ ENV FC_SERVER_PATH=/var/fc/runtime/python3
 
 # Create directory.
 RUN mkdir -p ${FC_SERVER_PATH}
-RUN mkdir -p ~/.pip
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 
 ENV FC_FUNC_CODE_PATH=/code/
 
-COPY pip.conf ~/.pip/
+COPY pip.conf /etc/pip.conf
 COPY sources.list /etc/apt/
 
 # Change work directory.
@@ -54,3 +53,6 @@ RUN for i in $(seq 10000 10999); do \
 
 # Start a shell by default
 CMD ["bash"]
+
+ENV FC_FUNC_CODE_PATH=/code 
+ENV LD_LIBRARY_PATH=${FC_FUNC_CODE_PATH}:${FC_FUNC_CODE_PATH}/lib:/usr/local/lib
