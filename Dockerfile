@@ -1,54 +1,42 @@
-FROM node:8.9.0
+FROM maven:3.5-jdk-8-slim
 
 MAINTAINER alibaba-serverless-fc
 
-# Environment variables.
-ENV FC_SERVER_PATH=/var/fc/runtime/nodejs8 \
-    NODE_PATH=/usr/local/lib/node_modules \
-    FC_FUNC_CODE_PATH=/code/ \
-    PATH=${FC_SERVER_PATH}/node_modules/.bin:${PATH}
+# Environment variables can be overwritten by running
+# $ docker run --env <key>=<value>
+ENV FC_SERVER_PATH=/var/fc/runtime/java8
 
-# Create directory.
-RUN mkdir -p ${FC_SERVER_PATH}
+ENV FC_SERVER_PORT=9000 \
+    FC_SERVER_LOG_PATH=${FC_SERVER_PATH}/var/log \
+    FC_SERVER_LOG_LEVEL=debug \
+    FC_FUNC_CODE_PATH=/code
+
+ENV LD_LIBRARY_PATH=${FC_FUNC_CODE_PATH}:${FC_FUNC_CODE_PATH}/lib
+
+RUN mkdir -p ${FC_SERVER_LOG_PATH}
+RUN chmod 777 ${FC_SERVER_LOG_PATH}
+RUN chmod -R 777 /tmp/
+
+ENV MAVEN_REPOSITORY=/cache/maven.repository
 
 # Change work directory.
-WORKDIR ${FC_SERVER_PATH}
+WORKDIR ${FC_FUNC_CODE_PATH}
 
-# Install server dependencies.
-RUN npm install \
-        --loglevel error \
-        --registry http://registry.npm.taobao.org
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+COPY sources.list /etc/apt/
 
 # Install common libraries
 RUN apt-get update && apt-get install -y \
-        imagemagick=8:6.8.9.9-5+deb8u10 \
-        libopencv-dev=2.4.9.1+dfsg-1+deb8u1 \
+        make=4.1-9.1 \
+        imagemagick=8:6.9.7.4+dfsg-11+deb9u4 \
+        libopencv-dev=2.4.9.1+dfsg1-2 \
         fonts-wqy-zenhei=0.9.45-6 \
         fonts-wqy-microhei=0.2.0-beta-2
 
 # Suppress opencv error: "libdc1394 error: Failed to initialize libdc1394"
 RUN ln /dev/null /dev/raw1394
 
-# Install thrid party libraries for user function.
-RUN npm install --global --unsafe-perm \
-        --registry http://registry.npm.taobao.org \
-        co@4.6.0 \
-        gm@1.23.0 \
-        ali-oss@4.10.1 \
-        aliyun-sdk@1.10.12 \
-        @alicloud/fc@1.2.2 \
-        opencv@6.0.0 \
-        tablestore@4.0.4
-
-RUN npm cache clean --force
-
-# Remove package.json
-RUN rm -f package.json
-
 # Generate usernames
 RUN for i in $(seq 10000 10999); do \
         echo "user$i:x:$i:$i::/tmp:/usr/sbin/nologin" >> /etc/passwd; \
     done
-
-# Start a shell by default
-CMD ["bash"]
